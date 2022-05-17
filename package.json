@@ -1,0 +1,37 @@
+{
+  "name": "Reviews",
+  "version": "1.0.0",
+  "description": "Nicole's Review SDC Repo",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "fast-csv": "^4.3.6",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.16"
+  },
+  "scripts": {
+    "test": "jest",
+    "server": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rpp34-sdc-tower/Reviews.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rpp34-sdc-tower/Reviews/issues"
+  },
+  "homepage": "https://github.com/rpp34-sdc-tower/Reviews#readme"
+}
