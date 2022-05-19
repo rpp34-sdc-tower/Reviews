@@ -1,4 +1,4 @@
-const pool = require('../db');
+const pool = require('../index');
 
 const getReviews = (request, response) => {
   let id = request.query.product_id;
@@ -13,7 +13,7 @@ const getReviews = (request, response) => {
   }
 
   console.log(id)
-  let queryString = `SELECT review_id, rating, summary, recommend, response, body, date, reviewer_name, helpfulness FROM reviews WHERE product_id = ${id} AND reported = false ${sort} LIMIT ${count};`;
+  let queryString = `SELECT review_id, rating, summary, recommend, response, body, to_timestamp(date/1000) AS date, reviewer_name, helpfulness FROM reviews WHERE product_id = ${id} AND reported = false LIMIT ${count};`;
 
   // callback
   // pool.query(queryString, (error, results) => {
@@ -50,4 +50,4 @@ module.exports = getReviews;
 
 var s = new Date(1602494190229).toISOString()
 // expected output "2020-10-12T09:16:30.229Z"
-console.log(s);
+// console.log(s);
