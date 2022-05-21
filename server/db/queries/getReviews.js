@@ -1,9 +1,6 @@
 const pool = require('../index');
 
-const getReviews = (request, response) => {
-  let id = request.query.product_id;
-  let count = request.query.count;
-  let sort = request.query.sort;
+const getReviews = (id, sort, count, page) => {
   if (sort === 'newest') {
     sort = 'ORDER BY date DESC';
   } else if (sort === 'helpful') {
@@ -12,35 +9,18 @@ const getReviews = (request, response) => {
     sort = 'ORDER BY date DESC, helpfulness DESC';
   }
 
-  console.log(id)
-  let queryString = `SELECT review_id, rating, summary, recommend, response, body, to_timestamp(date/1000) AS date, reviewer_name, helpfulness FROM reviews WHERE product_id = ${id} AND reported = false LIMIT ${count};`;
-
-  // callback
-  // pool.query(queryString, (error, results) => {
-  //   if (error) {
-  //     throw error;
-  //   }
-  //   var reviews = {
-  // product: id,
-  // page: 0,
-  // count: count,
-  // results: results.rows
-  //   }
-  //   response.status(200).json(reviews);
-  //   pool.end();
-  // });
+  // console.log(id)
+  let queryString = `SELECT review_id, rating, summary, recommend, response, body, to_timestamp(date/1000) AS date, reviewer_name, helpfulness FROM reviews WHERE product_id = ${id} AND reported = false ${sort} LIMIT ${count};`;
 
   // promise
-  pool
+   return pool
     .query(queryString)
     .then(data => {
-      var reviews = {
-        product: id,
-        page: 0,
-        count: count,
-        results: data.rows
+      // console.log('data',data.rows)
+      for (var i = 0; i < data.rows.length; i++) {
+        data.rows[i].photos = [];
       }
-      response.status(200).json(reviews);
+      return data.rows;
     })
     .catch(err => console.error('Error executing getReviews query', err.stack))
 
