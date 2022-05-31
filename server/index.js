@@ -53,8 +53,7 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
   markReviewHelpful(id)
     .then(() => {
       console.log('Has been added to helpfulness');
-      res.status(204);
-      res.end();
+      res.sendStatus(204);
     })
     .catch(err => {
       console.log('markReviewHelpful Error',err);
@@ -63,17 +62,17 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
 });
 
 app.put('/reviews/:review_id/report', (req, res) => {
-  let id = req.query.review_id;
+  let id = req.params.review_id;
   console.log('review_id = ', id)
 
-  // markReviewReported(id)
-  //   .then(() => {
-  //     // console.log('The review has been reported.');
-  //     // res.status(204);
-  //   })
-  //   .catch(err => {
-  //     console.log('markReviewReported Error',err);
-  //   })
+  markReviewReported(id)
+    .then(() => {
+      console.log('The review has been reported.');
+      res.sendStatus(204);
+    })
+    .catch(err => {
+      console.log('markReviewReported Error',err);
+    })
 
 });
 
