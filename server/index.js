@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const pool = require('./db/index');
 const getReviews = require('./db/queries/getReviews');
+const getReviewsMetadata = require('./db/queries/getReviewsMetadata');
 const markReviewHelpful = require('./db/queries/markReviewHelpful');
 const markReviewReported = require('./db/queries/markReviewReported');
 
@@ -24,14 +25,12 @@ app.get('/reviews', (req, res) => {
 
   getReviews(id, sort, count, page)
     .then(data => {
-      // data.photo = [];
       var reviews = {
         product: id,
         page: page,
         count: count,
         results: data
       }
-      // console.log('hello', data)
       res.status(200).json(reviews);
     })
     .catch(err => {
@@ -40,7 +39,19 @@ app.get('/reviews', (req, res) => {
 
 });
 
-// app.get('/reviews/meta', (req, res) => {})
+app.get('/reviews/meta', (req, res) => {
+  let id = req.query.product_id;
+
+  // getReviewsMetadata(id)
+  //   .then(data => {
+  //     console.log(data);
+  //     res.status(200);
+  //   })
+  //   .catch(err => {
+  //     console.log('getReviewsMetadata Error',err);
+  //   })
+
+});
 
 // POST
 // app.post('/reviews', (req, res) => {})
