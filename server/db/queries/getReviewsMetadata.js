@@ -1,7 +1,7 @@
 const pool = require('../index');
 
 const getReviewsMetadata = (id) => {
-  let ratingQueryString = `
+  let ratingsQueryString = `
     SELECT (SELECT count(rating) from reviews WHERE product_id = ${id} and rating = 1) as "1",
     (SELECT count(rating) from reviews WHERE product_id = ${id} and rating = 2) as "2",
     (SELECT count(rating) from reviews WHERE product_id = ${id} and rating = 3) as "3",
@@ -15,7 +15,7 @@ const getReviewsMetadata = (id) => {
     `;
 
   return pool
-    .query(ratingQueryString)
+    .query(ratingsQueryString)
     .then((data)=> {
       // console.log('data = ', data.rows);
       return data.rows;

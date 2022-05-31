@@ -43,7 +43,6 @@ app.get('/reviews/meta', (req, res) => {
   let id = req.query.product_id;
   console.log('product_id = ', id)
 
-
   getReviewsMetadata(id)
     .then(data => {
       // console.log('any data????',data);
