@@ -41,15 +41,21 @@ app.get('/reviews', (req, res) => {
 
 app.get('/reviews/meta', (req, res) => {
   let id = req.query.product_id;
+  console.log('product_id = ', id)
 
-  // getReviewsMetadata(id)
-  //   .then(data => {
-  //     console.log(data);
-  //     res.status(200);
-  //   })
-  //   .catch(err => {
-  //     console.log('getReviewsMetadata Error',err);
-  //   })
+
+  getReviewsMetadata(id)
+    .then(data => {
+      // console.log('any data????',data);
+      var metadata = {
+        product_id: id,
+        ratings: data[0]
+      }
+      res.status(200).json(metadata);
+    })
+    .catch(err => {
+      console.log('getReviewsMetadata Error',err);
+    })
 
 });
 
