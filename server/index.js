@@ -48,7 +48,11 @@ app.get('/reviews/meta', (req, res) => {
 
 
 // POST
-// app.post('/reviews', (req, res) => {})
+app.post('/reviews', (req, res) => {
+  console.log('body ==== ', req.body);
+  // add a review including review(rating, recommend, summary, body, date, reviewer name and email), photos, and product characteristics values.
+  // res.sendStatus(201);
+})
 
 
 // PUT
