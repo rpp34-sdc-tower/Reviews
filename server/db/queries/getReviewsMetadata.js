@@ -15,9 +15,9 @@ const getReviewsMetadata = (id) => {
   //   `;
 
   let metadataQuery = `
-  select rMain.product_id,
+  SELECT rMain.product_id,
         (
-        select jsonb_agg(outerC) from
+        SELECT jsonb_agg(outerC) FROM
           (
           SELECT json_object_agg(r2.rating,
             (
@@ -28,9 +28,9 @@ const getReviewsMetadata = (id) => {
           ) AS counts
         FROM reviews r2
         WHERE r2.product_id = rMain.product_id
-        GROUP BY r2.rating) as outerC) as ratings,
+        GROUP BY r2.rating) AS outerC) AS ratings,
         (
-        select jsonb_agg(outerRecommendCounts) from
+        SELECT jsonb_agg(outerRecommendCounts) FROM
           (
           SELECT json_object_agg(r4.recommend,
             (
@@ -41,22 +41,22 @@ const getReviewsMetadata = (id) => {
           ) AS recommendCounts
         FROM reviews r4
         WHERE r4.product_id = rMain.product_id
-        GROUP BY r4.recommend) as outerRecommendCounts
-        ) as recommended,
+        GROUP BY r4.recommend) AS outerRecommendCounts
+        ) AS recommended,
         (
-        select array_to_json(array_agg(characteristicGroup)) from
+        SELECT array_to_json(array_agg(characteristicGroup)) FROM
           (
-          select c.characteristic_name, c.characteristic_id, avg(cr.value) as value
-          from "characteristics" c
+          SELECT c.characteristic_name, c.characteristic_id, avg(cr.value) AS value
+          FROM "characteristics" c
           inner join reviews_characteristics cr
           on c.characteristic_id = cr.characteristic_id
-          where c.product_id = rMain.product_id
-          group by c.characteristic_id
+          WHERE c.product_id = rMain.product_id
+          GROUP BY c.characteristic_id
           ) characteristicGroup
-        ) as characteristics
-      from reviews rMain
-      where rMain.product_id = ${id}
-      group by rMain.product_id
+        ) AS characteristics
+      FROM reviews rMain
+      WHERE rMain.product_id = ${id}
+      GROUP BY rMain.product_id
       ;`;
 
   let transformMeta = (data) => {
@@ -79,7 +79,8 @@ const getReviewsMetadata = (id) => {
     data[0].recommended = transformedRecommend;
     data[0].characteristics = transformedCharacteristics;
     return data[0];
-  }
+  };
+
   return pool
     .query(metadataQuery)
     .then((data) => {
