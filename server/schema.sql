@@ -1,12 +1,12 @@
 CREATE DATABASE reviewsServer;
 
 -- CREATE TABLE IF NOT EXISTS products(
---   product_id INT PRIMARY KEY,
+--   product_id SERIAL PRIMARY KEY,
 --   product_name VARCHAR(40)
 -- );
 
 CREATE TABLE IF NOT EXISTS reviews(
-  review_id INT PRIMARY KEY,
+  review_id SERIAL PRIMARY KEY,
   product_id INT,
   rating INT,
   date bigint,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS reviews(
 );
 
 CREATE TABLE IF NOT EXISTS reviews_photos(
-  photo_id INT PRIMARY KEY,
+  photo_id SERIAL PRIMARY KEY,
   review_id INT,
   url TEXT,
     CONSTRAINT fk_review
@@ -30,13 +30,13 @@ CREATE TABLE IF NOT EXISTS reviews_photos(
 );
 
 CREATE TABLE IF NOT EXISTS characteristics(
-  characteristic_id INT PRIMARY KEY,
+  characteristic_id SERIAL PRIMARY KEY,
   product_id INT,
   characteristic_name VARCHAR(20)
 );
 
 CREATE TABLE IF NOT EXISTS reviews_characteristics(
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   characteristic_id INT,
   review_id INT,
     CONSTRAINT fk_review
