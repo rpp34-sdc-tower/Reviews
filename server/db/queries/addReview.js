@@ -4,7 +4,7 @@ const addReview = (productId, rating, summary, body, recommend, name, email, dat
   let queryString = `
     INSERT INTO reviews (product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness)
     VALUES (
-      ${productId}, ${rating}, select extract(epoch from now()), ${summary}, ${body}, ${recommend}, false, ${name}, ${email}, null, 0
+      ${productId}, ${rating}, extract(epoch from now()), ${summary}, ${body}, ${recommend}, false, ${name}, ${email}, null, 0
     );`;
 
   return pool

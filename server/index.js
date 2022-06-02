@@ -4,6 +4,7 @@ const app = express();
 const pool = require('./db/index');
 const getReviews = require('./db/queries/getReviews');
 const getReviewsMetadata = require('./db/queries/getReviewsMetadata');
+const addReview = require('./db/queries/addReview');
 const markReviewHelpful = require('./db/queries/markReviewHelpful');
 const markReviewReported = require('./db/queries/markReviewReported');
 
@@ -50,7 +51,7 @@ app.get('/reviews/meta', (req, res) => {
 // POST
 app.post('/reviews', (req, res) => {
   console.log('body ==== ', req.body);
-  // add a review including review(rating, recommend, summary, body, date, reviewer name and email), photos, and product characteristics values.
+  // add a review including review(product id, rating, recommend, summary, body, date, reviewer name and email), photos, and product characteristics values.
   // res.sendStatus(201);
 })
 
