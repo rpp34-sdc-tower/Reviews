@@ -20,11 +20,10 @@ const addPhotos = (reviewId, photos) => {
       .then((res) => {
         client.release();
         console.log('insert photos into db');
-        return res;
       })
       .catch((err) => {
         client.release();
-        console.log('DB PHOTOS INSERT ERROR: ', err);
+        console.log('Error executing addPhoto query: ', err);
       });
   });
 };

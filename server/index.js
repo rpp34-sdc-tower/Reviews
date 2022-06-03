@@ -37,7 +37,6 @@ app.get('/reviews', (req, res) => {
 
 app.get('/reviews/meta', (req, res) => {
   let id = req.query.product_id;
-  // console.log('product_id = ', id)
   getReviewsMetadata(id)
     .then(data => {
       res.status(200).json(data);
@@ -50,14 +49,12 @@ app.get('/reviews/meta', (req, res) => {
 
 // POST
 app.post('/reviews', (req, res) => {
-  // add a review including review(product id, rating, recommend, summary, body, date, reviewer name and email), photos, and product characteristics values.
   var newReview = req.body;
-  console.log('newReview ==== ', newReview);
-
   addReview(newReview.product_id, newReview.rating, newReview.summary, newReview.body, newReview.recommend, newReview.name, newReview.email)
     .then (id => {
       console.log('Add a new review to DB', id);
       addPhotos(id, newReview.photos);
+      addCharacteristicsReviews(id, newReview.characteristics);
       res.sendStatus(201);
     })
     .catch(err => {
@@ -69,7 +66,6 @@ app.post('/reviews', (req, res) => {
 // PUT
 app.put('/reviews/:review_id/helpful', (req, res) => {
   let id = req.params.review_id;
-  // console.log('review_id = ', id)
   markReviewHelpful(id)
     .then(() => {
       console.log('Has been added to helpfulness');
@@ -82,7 +78,6 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
 
 app.put('/reviews/:review_id/report', (req, res) => {
   let id = req.params.review_id;
-  // console.log('review_id = ', id)
   markReviewReported(id)
     .then(() => {
       console.log('The review has been reported.');

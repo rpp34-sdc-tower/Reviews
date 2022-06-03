@@ -17,7 +17,7 @@ const addReview = (productId, rating, summary, body, recommend, name, email) => 
       })
       .catch((err) => {
         client.release();
-        return err;
+        console.log('Error executing addReview query: ', err);
       });
   });
 };
