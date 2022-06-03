@@ -5,6 +5,8 @@ const pool = require('./db/index');
 const getReviews = require('./db/queries/getReviews');
 const getReviewsMetadata = require('./db/queries/getReviewsMetadata');
 const addReview = require('./db/queries/addReview');
+const addPhotos = require('./db/queries/addPhotos');
+const addCharacteristicsReviews = require('./db/queries/addCharacteristicsReviews');
 const markReviewHelpful = require('./db/queries/markReviewHelpful');
 const markReviewReported = require('./db/queries/markReviewReported');
 
@@ -29,30 +31,38 @@ app.get('/reviews', (req, res) => {
       res.status(200).json(data);
     })
     .catch(err => {
-      console.log('getReviews Error',err);
+      console.log('getReviews Error', err);
     })
 });
 
 app.get('/reviews/meta', (req, res) => {
   let id = req.query.product_id;
   // console.log('product_id = ', id)
-
   getReviewsMetadata(id)
     .then(data => {
       res.status(200).json(data);
     })
     .catch(err => {
-      console.log('getReviewsMetadata Error',err);
+      console.log('getReviewsMetadata Error', err);
     })
-
 });
 
 
 // POST
 app.post('/reviews', (req, res) => {
-  console.log('body ==== ', req.body);
   // add a review including review(product id, rating, recommend, summary, body, date, reviewer name and email), photos, and product characteristics values.
-  // res.sendStatus(201);
+  var newReview = req.body;
+  console.log('newReview ==== ', newReview);
+
+  addReview(newReview.product_id, newReview.rating, newReview.summary, newReview.body, newReview.recommend, newReview.name, newReview.email)
+    .then (id => {
+      console.log('Add a new review to DB', id);
+      addPhotos(id, newReview.photos);
+      res.sendStatus(201);
+    })
+    .catch(err => {
+      console.log('addReview Error',err);
+    })
 })
 
 
@@ -66,7 +76,7 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
       res.sendStatus(204);
     })
     .catch(err => {
-      console.log('markReviewHelpful Error',err);
+      console.log('markReviewHelpful Error', err);
     })
 });
 
@@ -79,7 +89,7 @@ app.put('/reviews/:review_id/report', (req, res) => {
       res.sendStatus(204);
     })
     .catch(err => {
-      console.log('markReviewReported Error',err);
+      console.log('markReviewReported Error', err);
     })
 });
 

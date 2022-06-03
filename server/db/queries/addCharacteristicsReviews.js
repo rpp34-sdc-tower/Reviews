@@ -1,9 +1,7 @@
 const pool = require('../index');
 
-const addCharacteristicsReviews = (reviewId, productId, value) => {
-  let queryString = `
-    INSERT INTO reviews_charateristics (product_id, , value)
-    VALUES (${reviewId},${productId}, ${value});`;
+const addCharacteristicsReviews = (reviewId, characteristicId, value) => {
+  let queryString = `INSERT INTO reviews_charateristics (characteristic_id, review_id, value) VALUES (${characteristicId}, ${reviewId}, ${value});`;
 
   return pool
     .query(queryString)
