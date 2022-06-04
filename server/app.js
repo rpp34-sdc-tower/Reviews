@@ -31,7 +31,6 @@ app.get('/reviews', (req, res) => {
       res.status(200).json(data);
     })
     .catch(err => {
-      console.log('getReviews Error', err);
       res.status(500).send('server get reviews error');
     })
 });
@@ -43,7 +42,6 @@ app.get('/reviews/meta', (req, res) => {
       res.status(200).json(data);
     })
     .catch(err => {
-      console.log('getReviewsMetadata Error', err);
       res.status(500).send('server get reviews metadata error');
     })
 });
@@ -54,13 +52,11 @@ app.post('/reviews', (req, res) => {
   var newReview = req.body;
   addReview(newReview.product_id, newReview.rating, newReview.summary, newReview.body, newReview.recommend, newReview.name, newReview.email)
     .then (id => {
-      // console.log('Add a new review to DB', id);
       addPhotos(id, newReview.photos);
       addCharacteristicsReviews(id, newReview.characteristics);
       res.sendStatus(201);
     })
     .catch(err => {
-      console.log('addReview Error',err);
       res.status(500).send('server post reviews error');
     })
 })
@@ -71,11 +67,9 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
   let id = req.params.review_id;
   markReviewHelpful(id)
     .then(() => {
-      // console.log('Has been added to helpfulness');
       res.sendStatus(204);
     })
     .catch(err => {
-      console.log('markReviewHelpful Error', err);
       res.status(500).send('server put a review helpful error');
     })
 });
@@ -84,11 +78,9 @@ app.put('/reviews/:review_id/report', (req, res) => {
   let id = req.params.review_id;
   markReviewReported(id)
     .then(() => {
-      // console.log('The review has been reported.');
       res.sendStatus(204);
     })
     .catch(err => {
-      console.log('markReviewReported Error', err);
       res.status(500).send('server put a reported review error');
     })
 });

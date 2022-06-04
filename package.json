@@ -23,7 +23,7 @@
     "supertest": "^6.2.3"
   },
   "scripts": {
-    "test": "jest --coverage --detectOpenHandles",
+    "test": "jest --coverage",
     "server": "nodemon server/app.js"
   },
   "repository": {
