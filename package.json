@@ -19,10 +19,11 @@
   },
   "devDependencies": {
     "jest": "^28.1.0",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "supertest": "^6.2.3"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "server": "nodemon server/index.js"
   },
   "repository": {
