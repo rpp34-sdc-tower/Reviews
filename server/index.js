@@ -32,6 +32,7 @@ app.get('/reviews', (req, res) => {
     })
     .catch(err => {
       console.log('getReviews Error', err);
+      res.status(500).send('server get reviews error');
     })
 });
 
@@ -43,6 +44,7 @@ app.get('/reviews/meta', (req, res) => {
     })
     .catch(err => {
       console.log('getReviewsMetadata Error', err);
+      res.status(500).send('server get reviews metadata error');
     })
 });
 
@@ -59,6 +61,7 @@ app.post('/reviews', (req, res) => {
     })
     .catch(err => {
       console.log('addReview Error',err);
+      res.status(500).send('server post reviews error');
     })
 })
 
@@ -73,6 +76,7 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
     })
     .catch(err => {
       console.log('markReviewHelpful Error', err);
+      res.status(500).send('server put a review helpful error');
     })
 });
 
@@ -85,6 +89,7 @@ app.put('/reviews/:review_id/report', (req, res) => {
     })
     .catch(err => {
       console.log('markReviewReported Error', err);
+      res.status(500).send('server put a reported review error');
     })
 });
 
