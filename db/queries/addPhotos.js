@@ -6,26 +6,25 @@ const addPhotos = (reviewId, photos) => {
     SELECT * FROM UNNEST ($1::int[], $2::text[]) AS t (review_id, url);
     `;
 
-  // return pool
-  //   .query(queryString, [Array(photos.length).fill(reviewId), photos])
-  //   .then((res)=> {
-  //     console.log('successfully added photos');
-  //     return res;
-  //   })
-  //   .catch(err => console.error('Error executing addPhoto query', err.stack))
+  // return pool.connect().then((client) => {
+  //   return client
+  //     .query(queryString, [Array(photos.length).fill(reviewId), photos])
+  //     .then((res) => {
+  //       client.release();
+  //       // console.log('insert photos into db');
+  //     })
+  //     .catch((err) => {
+  //       client.release();
+  //       console.log('Error executing addPhoto query: ', err);
+  //     });
+  // });
 
-  return pool.connect().then((client) => {
-    return client
-      .query(queryString, [Array(photos.length).fill(reviewId), photos])
-      .then((res) => {
-        client.release();
-        console.log('insert photos into db');
-      })
-      .catch((err) => {
-        client.release();
-        console.log('Error executing addPhoto query: ', err);
-      });
-  });
+    return pool
+    .query(queryString, [Array(photos.length).fill(reviewId), photos])
+    .then((res)=> {
+      return res;
+    })
+    .catch(err => console.log('Error executing addPhoto query', err))
 };
 
 module.exports = addPhotos;

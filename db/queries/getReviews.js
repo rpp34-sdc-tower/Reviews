@@ -9,10 +9,6 @@ const getReviews = (id, sort, count, page) => {
     sort = 'ORDER BY helpfulness DESC, date DESC';
   }
 
-  // console.log(id)
-  // let queryString = `SELECT review_id, rating, summary, recommend, response, body, to_timestamp(date/1000) AS date, reviewer_name, helpfulness FROM reviews WHERE product_id = ${id} AND reported = false ${sort} LIMIT ${count};`;
-  // let photosQueryString = `SELECT photo_id as id, url FROM reviews_photos WHERE review_id = ${review_id};`
-
   let queryString = `
     SELECT r.review_id, r.rating, r.summary, r.recommend, r.response, r.body, to_timestamp(r.date/1000) AS date, r.reviewer_name, r.helpfulness,
     CASE WHEN count(o) = 0 THEN ARRAY[]::json[] ELSE array_agg(o.photo) END AS photos
@@ -30,7 +26,6 @@ const getReviews = (id, sort, count, page) => {
     LIMIT ${count};
     `;
 
-  // promise
    return pool
     .query(queryString)
     .then(data => {
@@ -42,7 +37,7 @@ const getReviews = (id, sort, count, page) => {
       }
       return reviews;
     })
-    .catch(err => console.error('Error executing getReviews query', err.stack))
+    .catch(err => console.log('Error executing getReviews query', err))
 }
 
 module.exports = getReviews;

@@ -8,18 +8,25 @@ const addReview = (productId, rating, summary, body, recommend, name, email) => 
     (${productId}, ${rating}, Date.now(), '${summary}', '${body}', ${recommend}, false, '${name}', '${email}', null, 0)
     RETURNING review_id;`;
 
-  return pool.connect().then((client) => {
-    return client
-      .query(queryString)
-      .then((data) => {
-        client.release();
-        return data.rows[0].review_id;
-      })
-      .catch((err) => {
-        client.release();
-        console.log('Error executing addReview query: ', err);
-      });
-  });
+  // return pool.connect().then((client) => {
+  //   return client
+  //     .query(queryString)
+  //     .then((data) => {
+  //       client.release();
+  //       return data.rows[0].review_id;
+  //     })
+  //     .catch((err) => {
+  //       client.release();
+  //       console.log('Error executing addReview query: ', err);
+  //     });
+  // });
+
+  return pool
+  .query(queryString)
+  .then((data)=> {
+    return data.rows[0].review_id;
+  })
+  .catch(err => console.log('Error executing addReview query', err))
 };
 
 module.exports = addReview;

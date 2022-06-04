@@ -6,9 +6,9 @@ const markReviewHelpful = (reviewId) => {
   return pool
     .query(queryString)
     .then(()=> {
-      console.log('successfully marked helpful review');
+      // console.log('successfully marked helpful review');
     })
-    .catch(err => console.error('Error executing markReviewHelpful query', err.stack))
+    .catch(err => console.log('Error executing markReviewHelpful query', err))
 };
 
 module.exports = markReviewHelpful;

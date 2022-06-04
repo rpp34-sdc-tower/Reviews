@@ -54,7 +54,7 @@ app.post('/reviews', (req, res) => {
   var newReview = req.body;
   addReview(newReview.product_id, newReview.rating, newReview.summary, newReview.body, newReview.recommend, newReview.name, newReview.email)
     .then (id => {
-      console.log('Add a new review to DB', id);
+      // console.log('Add a new review to DB', id);
       addPhotos(id, newReview.photos);
       addCharacteristicsReviews(id, newReview.characteristics);
       res.sendStatus(201);
@@ -71,7 +71,7 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
   let id = req.params.review_id;
   markReviewHelpful(id)
     .then(() => {
-      console.log('Has been added to helpfulness');
+      // console.log('Has been added to helpfulness');
       res.sendStatus(204);
     })
     .catch(err => {
@@ -84,7 +84,7 @@ app.put('/reviews/:review_id/report', (req, res) => {
   let id = req.params.review_id;
   markReviewReported(id)
     .then(() => {
-      console.log('The review has been reported.');
+      // console.log('The review has been reported.');
       res.sendStatus(204);
     })
     .catch(err => {
@@ -94,6 +94,8 @@ app.put('/reviews/:review_id/report', (req, res) => {
 });
 
 
-app.listen(3000, () => {
-  console.log('server listening on port 3000')
-});
+// app.listen(3000, () => {
+//   console.log('server listening on port 3000')
+// });
+
+module.exports = app;

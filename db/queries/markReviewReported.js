@@ -6,9 +6,9 @@ const markReviewReported = (reviewId) => {
   return pool
     .query(queryString)
     .then(()=> {
-      console.log('successfully reported a review');
+      // console.log('successfully reported a review');
     })
-    .catch(err => console.error('Error executing markReviewReported query', err.stack))
+    .catch(err => console.log('Error executing markReviewReported query', err))
 };
 
 module.exports = markReviewReported;
