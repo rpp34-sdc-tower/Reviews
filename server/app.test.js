@@ -9,12 +9,12 @@ afterAll(async () => {
   await pool.end();
 });
 
-// describe('GET /reviews', () => {
-//   test('It should respond status code 200', async() => {
-//     const response = await request(app).get(`/reviews?product_id=${product_id}`);
-//     expect (response.statusCode).toBe(200);
-//   })
-// });
+describe('GET /reviews', () => {
+  test('It should respond status code 200', async() => {
+    const response = await request(app).get(`/reviews?product_id=${product_id}`);
+    expect (response.statusCode).toBe(200);
+  })
+});
 
 describe('GET /reviews/meta', () => {
   test('It should respond status code 200', async () => {

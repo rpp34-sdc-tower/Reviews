@@ -10,25 +10,36 @@ const getReviews = (id, sort, count, page) => {
   }
 
   let queryString = `
-    SELECT r.review_id, r.rating, r.summary, r.recommend, r.response, r.body, to_timestamp(r.date/1000) AS date, r.reviewer_name, r.helpfulness,
-    CASE WHEN count(o) = 0 THEN ARRAY[]::json[] ELSE array_agg(o.photo) END AS photos
+  SELECT r.review_id, r.rating, r.summary, r.recommend, r.response, r.body, to_timestamp(r.date/1000) AS date, r.reviewer_name, r.helpfulness,
+  (
+    SELECT array_to_json(array_agg(photosGroup)) FROM
+      (
+         SELECT p.photo_id AS id, p.url
+         FROM reviews_photos p
+         inner join reviews
+         on p.review_id = reviews.review_id
+         WHERE p.review_id = r.review_id
+         GROUP BY p.photo_id
+         ) photosGroup
+       ) AS photos
     FROM reviews r
-    LEFT OUTER JOIN
-    (
-    SELECT p.review_id, json_build_object('id', p.photo_id, 'url', p.url) as photo
-    FROM reviews_photos p
-	  ORDER BY p.review_id
-    ) o
-    ON r.review_id = o.review_id
     WHERE r.product_id = ${id} AND r.reported = false
     GROUP BY r.review_id
     ${sort}
     LIMIT ${count};
     `;
 
-   return pool
+  return pool
     .query(queryString)
     .then(data => {
+      for (var i = 0; i < data.rows.length; i++) {
+        if(data.rows[i].photos === null) {
+          data.rows[i].photos = [];
+        }
+        if(data.rows[i].response === 'null') {
+          data.rows[i].response = null;
+        }
+      }
       var reviews = {
         product: id,
         page: page,
