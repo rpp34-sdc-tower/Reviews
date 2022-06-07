@@ -2,11 +2,11 @@ const pool = require('../index');
 
 const getReviews = (id, sort, count, page) => {
   if (sort === 'newest') {
-    sort = 'ORDER BY date DESC';
+    sort = 'ORDER BY r.date DESC';
   } else if (sort === 'helpful') {
-    sort = 'ORDER BY helpfulness DESC';
+    sort = 'ORDER BY r.helpfulness DESC';
   } else if (sort === 'relevant') {
-    sort = 'ORDER BY helpfulness DESC, date DESC';
+    sort = 'ORDER BY r.helpfulness DESC, r.date DESC';
   }
 
   let queryString = `
@@ -16,17 +16,18 @@ const getReviews = (id, sort, count, page) => {
       (
          SELECT p.photo_id AS id, p.url
          FROM reviews_photos p
-         inner join reviews
-         on p.review_id = reviews.review_id
-         WHERE p.review_id = r.review_id
+         inner join reviews r0
+         on p.review_id = r0.review_id
+         WHERE r.review_id = p.review_id
          GROUP BY p.photo_id
-         ) photosGroup
-       ) AS photos
+      ) photosGroup
+  ) AS photos
     FROM reviews r
-    WHERE r.product_id = ${id} AND r.reported = false
+    WHERE r.product_id = ${id} AND r.reported <> true
     GROUP BY r.review_id
     ${sort}
-    LIMIT ${count};
+    LIMIT ${count}
+    OFFSET ${count * page - count};
     `;
 
   return pool
