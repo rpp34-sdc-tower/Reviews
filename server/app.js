@@ -39,7 +39,7 @@ app.get('/reviews/meta', (req, res) => {
   let id = req.query.product_id;
   getReviewsMetadata(id)
     .then(data => {
-      res.status(200).json(data);
+        res.status(200).json(data);
     })
     .catch(err => {
       res.status(500).send('server get reviews metadata error');

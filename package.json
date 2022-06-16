@@ -24,7 +24,8 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "server": "nodemon server/server.js"
+    "server": "nodemon server/server.js",
+    "k6": "k6 run stress-test/script.js"
   },
   "repository": {
     "type": "git",

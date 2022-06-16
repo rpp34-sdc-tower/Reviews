@@ -50,21 +50,27 @@ const getReviewsMetadata = (id) => {
     var transformedRatings = {};
     var transformedRecommend = {};
     var transformedCharacteristics = {};
-    data[0].ratings.forEach(row => {
-      transformedRatings = { ...transformedRatings, ...row.counts }
-    });
-    data[0].recommended.forEach(row => {
-      transformedRecommend = { ...transformedRecommend, ...row.recommendcounts }
-    });
-    data[0].characteristics.forEach((row) => {
-      transformedCharacteristics[row.characteristic_name] = {
-        id: row.characteristic_id,
-        value: row.value
+    if (data[0]) {
+      data[0].ratings.forEach(row => {
+        transformedRatings = { ...transformedRatings, ...row.counts }
+      });
+      data[0].recommended.forEach(row => {
+        transformedRecommend = { ...transformedRecommend, ...row.recommendcounts }
+      });
+      data[0].characteristics.forEach((row) => {
+        transformedCharacteristics[row.characteristic_name] = {
+          id: row.characteristic_id,
+          value: row.value
+        }
+      });
+      data[0].ratings = transformedRatings;
+      data[0].recommended = transformedRecommend;
+      data[0].characteristics = transformedCharacteristics;
+    } else {
+      data[0] = {
+        product_id: parseInt(id)
       }
-    });
-    data[0].ratings = transformedRatings;
-    data[0].recommended = transformedRecommend;
-    data[0].characteristics = transformedCharacteristics;
+    }
     return data[0];
   };
 
