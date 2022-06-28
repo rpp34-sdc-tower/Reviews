@@ -2,8 +2,8 @@ const request = require('supertest');
 const app = require('./app.js');
 const pool = require('../db/');
 
-const product_id = 94780;
-const review_id = 45973;
+const product_id = 43940;
+const review_id = 543903;
 
 afterAll(async () => {
   await pool.end();
